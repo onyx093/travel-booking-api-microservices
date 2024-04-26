@@ -18,6 +18,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/flight_booking/tsconfig.app.json"
       }
+    },
+    "user_management": {
+      "type": "application",
+      "root": "apps/user_management",
+      "entryFile": "main",
+      "sourceRoot": "apps/user_management/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/user_management/tsconfig.app.json"
+      }
     }
   }
 }
