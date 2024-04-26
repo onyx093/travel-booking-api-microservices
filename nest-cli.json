@@ -27,6 +27,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/user_management/tsconfig.app.json"
       }
+    },
+    "hotel_reservations": {
+      "type": "application",
+      "root": "apps/hotel_reservations",
+      "entryFile": "main",
+      "sourceRoot": "apps/hotel_reservations/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/hotel_reservations/tsconfig.app.json"
+      }
     }
   }
 }
