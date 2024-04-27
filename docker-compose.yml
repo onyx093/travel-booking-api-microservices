@@ -7,6 +7,8 @@ services:
     command: 'npm run start:dev flight_booking'
     env_file:
       - ./apps/flight_booking/.env
+    ports:
+      - '3000:3000'
     depends_on:
       - mongodb-primary
       - mongodb-secondary
