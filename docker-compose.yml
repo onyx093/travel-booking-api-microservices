@@ -17,6 +17,27 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
 
+  hotel_reservations:
+    build:
+      context: .
+      dockerfile: ./apps/hotel_reservations/Dockerfile
+      target: development
+    command: 'npm run start:dev hotel_reservations'
+    env_file:
+      - ./apps/hotel_reservations/.env
+    depends_on:
+      - mongodb-primary
+      - mongodb-secondary
+      - mongodb-arbiter
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - '5672:5672'
+
   mongodb-primary:
     image: docker.io/bitnami/mongodb:7.0
     environment:

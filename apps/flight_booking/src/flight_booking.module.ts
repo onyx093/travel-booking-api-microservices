@@ -3,13 +3,14 @@ import { FlightBookingController } from './flight_booking.controller';
 import { FlightBookingService } from './flight_booking.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { DatabaseModule } from '@app/common';
+import { DatabaseModule, RmqModule } from '@app/common';
 import { FlightBookingsRepository } from './flight_booking.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   FlightBooking,
   FlightBookingSchema,
 } from './schemas/flight_booking.schema';
+import { HOTEL_RESERVATIONS_SERVICE } from './constants/services';
 
 @Module({
   imports: [
@@ -28,6 +29,9 @@ import {
         schema: FlightBookingSchema,
       },
     ]),
+    RmqModule.register({
+      name: HOTEL_RESERVATIONS_SERVICE,
+    }),
   ],
   controllers: [FlightBookingController],
   providers: [FlightBookingService, FlightBookingsRepository],
