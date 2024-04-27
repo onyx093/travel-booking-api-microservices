@@ -1,7 +1,7 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { HotelReservationsService } from './hotel_reservations.service';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
-import { RmqService } from '@app/common';
+import { JwtAuthGuard, RmqService } from '@app/common';
 
 @Controller()
 export class HotelReservationsController {
@@ -11,6 +11,7 @@ export class HotelReservationsController {
   ) {}
 
   @EventPattern('flight_booking_created')
+  @UseGuards(JwtAuthGuard)
   async handleFlightBookingCreated(
     @Payload() data: any,
     @Ctx() context: RmqContext,

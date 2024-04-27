@@ -13,12 +13,15 @@ export class FlightBookingService {
     private hotelReservationClient: ClientProxy,
   ) {}
 
-  async createFlight(request: CreateFlightRequest) {
+  async createFlight(request: CreateFlightRequest, authentication: string) {
     const session = await this.flightRepository.startTransaction();
     try {
       const flightBooking = this.flightRepository.create(request, { session });
       await lastValueFrom(
-        this.hotelReservationClient.emit('flight_booking_created', { request }),
+        this.hotelReservationClient.emit('flight_booking_created', {
+          request,
+          Authentication: authentication,
+        }),
       );
       await session.commitTransaction();
       return flightBooking;
