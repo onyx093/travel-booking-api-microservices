@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
 export class HotelReservationsService {
-  getHello(): string {
-    return 'Hello World!';
+  private readonly logger = new Logger(HotelReservationsService.name);
+
+  reserve(data: any) {
+    this.logger.log('Making hotel reservation for', data);
   }
 }

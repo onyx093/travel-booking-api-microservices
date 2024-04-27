@@ -8,7 +8,9 @@ export class FlightBookingController {
   constructor(private readonly flightBookingService: FlightBookingService) {}
 
   @Post()
-  async createFlight(@Body() request: CreateFlightRequest) {
+  async createFlight(
+    @Body() request: CreateFlightRequest,
+  ): Promise<FlightBooking> {
     return this.flightBookingService.createFlight(request);
   }
 

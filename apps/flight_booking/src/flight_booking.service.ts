@@ -3,6 +3,7 @@ import { CreateFlightRequest } from './dto/create-order.request';
 import { FlightBookingsRepository } from './flight_booking.repository';
 import { HOTEL_RESERVATIONS_SERVICE } from './constants/services';
 import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class FlightBookingService {
@@ -13,7 +14,18 @@ export class FlightBookingService {
   ) {}
 
   async createFlight(request: CreateFlightRequest) {
-    return this.flightRepository.create(request);
+    const session = await this.flightRepository.startTransaction();
+    try {
+      const flightBooking = this.flightRepository.create(request, { session });
+      await lastValueFrom(
+        this.hotelReservationClient.emit('flight_booking_created', { request }),
+      );
+      await session.commitTransaction();
+      return flightBooking;
+    } catch (error) {
+      await session.abortTransaction();
+      throw error;
+    }
   }
 
   async getFlights() {
